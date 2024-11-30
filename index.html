@@ -8,20 +8,38 @@
 </head>
 <body>
     <h1 id="title">TicTacToe</h1>
-    <p>TicTacToe with simple bot. You are x, and bot is o</p>
-    <p id="status"></p>
-    <div class="grid-container">
-        <div id="a" class="button" onclick="move('a')"></div>
-        <div id="b" class="button" onclick="move('b')"></div>
-        <div id="c" class="button" onclick="move('c')"></div>
-        <div id="d" class="button" onclick="move('d')"></div>
-        <div id="e" class="button" onclick="move('e')"></div>
-        <div id="f" class="button" onclick="move('f')"></div>
-        <div id="g" class="button" onclick="move('g')"></div>
-        <div id="h" class="button" onclick="move('h')"></div>
-        <div id="i" class="button" onclick="move('i')"></div>
+    <p>TicTacToe with bot. You are x, and bot is o</p>
+    <div id="difficulty">
+        <label class="difficulty_content">
+          <input type="radio" name="difficulty" value="hard"> <span>Hard (unbeatable)</span>
+        </label>
+        <label class="difficulty_content">
+          <input type="radio" name="difficulty" value="medium"> <span>Medium</span>
+        </label>
+        <label class="difficulty_content">
+          <input type="radio" name="difficulty" value="easy"> <span>Easy</span>
+        </label>
       </div>
-      
-      <script src="script.js"></script>
+        <button onclick="start()" id="start_button">Start</button>
+    <p id="status"></p>
+    <div id="grid-container">
+        <div id="a" class="button" onclick=""></div>
+        <div id="b" class="button" onclick=""></div>
+        <div id="c" class="button" onclick=""></div>
+        <div id="d" class="button" onclick=""></div>
+        <div id="e" class="button" onclick=""></div>
+        <div id="f" class="button" onclick=""></div>
+        <div id="g" class="button" onclick=""></div>
+        <div id="h" class="button" onclick=""></div>
+        <div id="i" class="button" onclick=""></div>
+    </div>
+    <br>
+    <br>
+    <div class="reset_buttons">
+        <div class="reset_button_content" onclick="resetGame()">Reset the game</div>
+        <br>
+        <div class="reset_button_content" onclick="" id="change_difficulty">Change difficuly (start from beginning)</div>
+        <script src="script.js"></script>
+    </div>
 </body>
 </html>
