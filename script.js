@@ -186,46 +186,67 @@ function bot_easy() {
 }
 //medium bot
 function bot_medium() {
-    const availableSpots = Object.keys(board).filter(key => board[key] === '');
+    let losingMove = null;
+    const availableMoves = Object.keys(board).filter(key => board[key] === '');
   
-    //try to win
-    for (let spot of availableSpots) {
-        board[spot] = "o"; //simulate move
+    //check if bot can win
+    for (let i = 0; i < availableMoves.length; i++) {
+        const move = availableMoves[i];
+        const simulatedBoard = { ...board };
+        simulatedBoard[move] = "o"; //simulate
+  
+        if (checkWinner("o", simulatedBoard)) {
+            bot_input(move); //move is it can win
+            if (checkWinner("o")) {
+                document.getElementById('status').textContent = 'Bot wins!';
+                alert('Bot wins!');
+                disableBoard();
+            } else if (isBoardFull()) {
+                document.getElementById('status').textContent = 'It\'s a draw!';
+                alert('It\'s a draw!');
+            }
+            return;
+        }
+  
+      //simulate and check is player can win after the move.
+      const nextMoves = Object.keys(simulatedBoard).filter(key => simulatedBoard[key] === '');
+      for (let j = 0; j < nextMoves.length; j++) {
+        const opponentMove = nextMoves[j];
+        const opponentSimulatedBoard = { ...simulatedBoard };
+        opponentSimulatedBoard[opponentMove] = "x"; 
+  
+        if (checkWinner("x", opponentSimulatedBoard)) {
+            losingMove = move; //store the move
+        }
+      }
+    }
+  
+    //block winning
+    if (losingMove !== null) {
+        bot_input(losingMove);
         if (checkWinner("o")) {
-            bot_input(spot); //is the move win, take the place
-            return;
+            document.getElementById('status').textContent = 'Bot wins!';
+            alert('Bot wins!');
+            disableBoard();
+        } else if (isBoardFull()) {
+            document.getElementById('status').textContent = 'It\'s a draw!';
+            alert('It\'s a draw!');
         }
-        board[spot] = ''; //undo wrone move
-    }
-  
-    //block the player winning
-    for (let spot of availableSpots) {
-        board[spot] = "x"; // simulate move
-        if (checkWinner("x")) {
-            bot_input(spot); //if the move block the player, block.
-            return;
-        }
-        board[spot] = ''; //undo wrone move
-    }
-  
-    //take the center if available
-    if (board["e"] === '') {
-        bot_input("e");
         return;
     }
-  
-    //take a corner if available
-    const corners = ["a", "c", "g", "i"];
-    const availableCorners = corners.filter(corner => board[corner] === '');
-    if (availableCorners.length > 0) {
-        const randomCorner = availableCorners[Math.floor(Math.random() * availableCorners.length)];
-        bot_input(randomCorner);
-        return;
+    
+    //choose random
+    const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    bot_input(randomMove);
+    if (checkWinner("o")) {
+        document.getElementById('status').textContent = 'Bot wins!';
+        alert('Bot wins!');
+        disableBoard();
+    } else if (isBoardFull()) {
+        document.getElementById('status').textContent = 'It\'s a draw!';
+        alert('It\'s a draw!');
     }
-  
-    //take any random available spot
-    const randomSpot = availableSpots[Math.floor(Math.random() * availableSpots.length)];
-    bot_input(randomSpot);
+
   }
 //hard bot
 function bot_hard() {
